@@ -18,13 +18,15 @@ public class Ninno extends Thread {
     private Columpio columpio;
     private Tobogan tobogan;
     private Tiovivo tiovivo;
+    private ParqueInfantil parque;
     private int edad;
     
-    public Ninno (int edad, Columpio columpio, Tobogan tobogan, Tiovivo tiovivo) {
+    public Ninno (int edad, Columpio columpio, Tobogan tobogan, Tiovivo tiovivo, ParqueInfantil parqueInfantil) {
         this.edad = edad;
         this.columpio = columpio;
         this.tobogan = tobogan;
         this.tiovivo = tiovivo;
+        parque = parqueInfantil;
     }
     
     
@@ -32,7 +34,9 @@ public class Ninno extends Thread {
     public void run() {
         while (true) {
             try {
+                parque.annadirTexto(parque.getjTextAreaNinnnosDecidiendo(), this.getName()+"\n");
                 sleep((int) (((Math.random()*1.8)+0.2)*1000));
+                parque.removerTexto(parque.getjTextAreaNinnnosDecidiendo(), this.getName()+"\n");
                 switch ((int) ((Math.random() * 2) + 1)){
                     case 1:
                         columpio.entrarColumpios(this);
@@ -46,8 +50,7 @@ public class Ninno extends Thread {
                     case 3:
                         tiovivo.entrarTiovivo(this);
                         tiovivo.getBarreraEntrada().await();
-                        //tiovivo.montarEnTiovivo();
-                        sleep(5000);
+                        tiovivo.montarEnTiovivo();
                         tiovivo.getBarreraSalida().await();
                         tiovivo.salirTiovivo(this);
                 }
@@ -58,5 +61,11 @@ public class Ninno extends Thread {
             }
         }
     }
+
+    public int getEdad() {
+        return edad;
+    }
+    
+    
     
 }

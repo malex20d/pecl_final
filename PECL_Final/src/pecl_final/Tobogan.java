@@ -15,20 +15,23 @@ public class Tobogan {
     
     private ArrayList<Ninno> ninnosEsperando = new ArrayList<>();
     private boolean ocupado = false;
+    private ParqueInfantil parque;
     
-    public Tobogan() {
-        
+    public Tobogan(ParqueInfantil parqueInfantil) {
+        parque = parqueInfantil;
     }
     
     public synchronized void entrarTobogan(Ninno ninno) throws InterruptedException {
         while (ocupado) {
             System.out.println(ninno.getName()+" esperando para entrar al tobogan");
             ninnosEsperando.add(ninno);
+            parque.getjTextColaTobogan().setText(ArrayListToString(ninnosEsperando));
             wait();
         }
         
         if(ninnosEsperando.contains(ninno)) {
             ninnosEsperando.remove(ninno);
+            parque.getjTextColaTobogan().setText(ArrayListToString(ninnosEsperando));
         }
         
         ocupado = true;
@@ -38,12 +41,29 @@ public class Tobogan {
     
     public void montarEnTobogan(Ninno ninno) throws InterruptedException{
         System.out.println(ninno.getName()+" montando en tobogan");
+        parque.getjTextNinnoMontadoTobogan().setText(ninno.getName());
+        parque.getjTextEdadNinnoMontadoTobogan().setText(String.valueOf(ninno.getEdad()));
         Thread.sleep(500);
     }
     
     public synchronized void salirTobogan(Ninno ninno) {
         System.out.println(ninno.getName()+" sale del tobogan");
         ocupado = false;
+        parque.getjTextEdadNinnoMontadoTobogan().setText("");
+        parque.getjTextNinnoMontadoTobogan().setText("");
         notify();
+    }
+    
+    public String ArrayListToString (ArrayList<Ninno> ninnos) {
+        String s = "";
+        for (int i = 0; i < ninnos.size(); i++) {
+            if (i==0) {
+                s= s+ninnos.get(i).getName();
+            } else {
+                s = s+", "+ninnos.get(i).getName();
+            }
+        }
+        
+        return s;
     }
 }

@@ -5,21 +5,22 @@
  */
 package pecl_final;
 
-import javax.swing.JTextField;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import javax.swing.*;
 
 /**
  *
  * @author alex
  */
-public class ParqueInfantil extends javax.swing.JFrame {
+public class ParqueInfantil extends JFrame {
 
     /**
      * Creates new form ParqueInfantil
      */
     public ParqueInfantil() {
         initComponents();
-        jTextAreaNinnnosDecidiendo.setText(jTextAreaNinnnosDecidiendo.getText()+"\nbien \n");
-        jTextAreaNinnnosDecidiendo.setText(jTextAreaNinnnosDecidiendo.getText().replace("hola\n", ""));
     }
 
     /**
@@ -43,11 +44,11 @@ public class ParqueInfantil extends javax.swing.JFrame {
         jLabelColaColumpio = new javax.swing.JLabel();
         jTextColaColumpio = new javax.swing.JTextField();
         jLabelColaTiovivo = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextColaTiovivo = new javax.swing.JTextField();
+        jLabelMontandoColumpio = new javax.swing.JLabel();
+        jTextMontandoColumpio = new javax.swing.JTextField();
+        jLabelTiovivoMontando = new javax.swing.JLabel();
+        jTextMontandoTiovivo = new javax.swing.JTextField();
         jButtonDetener = new javax.swing.JButton();
         jButtonReanudar = new javax.swing.JButton();
 
@@ -56,7 +57,6 @@ public class ParqueInfantil extends javax.swing.JFrame {
         jTextAreaNinnnosDecidiendo.setEditable(false);
         jTextAreaNinnnosDecidiendo.setColumns(1);
         jTextAreaNinnnosDecidiendo.setRows(50);
-        jTextAreaNinnnosDecidiendo.setText("hola\nbuenas\ncomo\nestas");
         jScrollPane2.setViewportView(jTextAreaNinnnosDecidiendo);
 
         jLabelDecidiendo.setFont(new java.awt.Font("URW Gothic L", 0, 12)); // NOI18N
@@ -82,19 +82,29 @@ public class ParqueInfantil extends javax.swing.JFrame {
         jLabelColaColumpio.setText("Cola de espera columpios");
 
         jTextColaColumpio.setEditable(false);
+        jTextColaColumpio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextColaColumpioActionPerformed(evt);
+            }
+        });
 
         jLabelColaTiovivo.setFont(new java.awt.Font("URW Gothic L", 0, 12)); // NOI18N
         jLabelColaTiovivo.setText("Cola esperando tiovivo");
 
-        jTextField5.setEditable(false);
+        jTextColaTiovivo.setEditable(false);
 
-        jLabel2.setText("En columpios:");
+        jLabelMontandoColumpio.setText("En columpios:");
 
-        jTextField1.setEditable(false);
+        jTextMontandoColumpio.setEditable(false);
+        jTextMontandoColumpio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextMontandoColumpioActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setText("En tiovivo:");
+        jLabelTiovivoMontando.setText("En tiovivo:");
 
-        jTextField2.setEditable(false);
+        jTextMontandoTiovivo.setEditable(false);
 
         jButtonDetener.setText("Detener");
 
@@ -123,27 +133,27 @@ public class ParqueInfantil extends javax.swing.JFrame {
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabelToboganMontado)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jTextNinnoMontadoTobogan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jTextNinnoMontadoTobogan, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(jLabelDe)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTextEdadNinnoMontadoTobogan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(jTextEdadNinnoMontadoTobogan, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jTextColaTobogan, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTextColaColumpio, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jTextColaTiovivo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGroup(layout.createSequentialGroup()
                                                     .addGap(15, 15, 15)
                                                     .addComponent(jLabelColaTiovivo, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
+                                                .addComponent(jLabelMontandoColumpio)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(jTextMontandoColumpio, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel3)
+                                                .addComponent(jLabelTiovivoMontando)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(jTextMontandoTiovivo, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addComponent(jLabelDecidiendo, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
@@ -182,26 +192,34 @@ public class ParqueInfantil extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelMontandoColumpio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextMontandoColumpio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabelColaTiovivo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextColaTiovivo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTiovivoMontando, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextMontandoTiovivo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonDetener))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonReanudar)
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
-        jLabel3.getAccessibleContext().setAccessibleName("");
+        jLabelTiovivoMontando.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextColaColumpioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextColaColumpioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextColaColumpioActionPerformed
+
+    private void jTextMontandoColumpioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextMontandoColumpioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextMontandoColumpioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,13 +248,115 @@ public class ParqueInfantil extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        ParqueInfantil parque = new ParqueInfantil();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ParqueInfantil().setVisible(true);
+                parque.setVisible(true);
             }
         });
+        int contador = 0;
+        Columpio columpios = new Columpio(parque);
+        Tobogan tobogan = new Tobogan(parque);
+        Tiovivo tiovivo = new Tiovivo(parque);
+        ExecutorService executor = Executors.newFixedThreadPool(20000);
+            for (int i = 1; i <=50; i++) {
+                contador++;
+                Ninno ninno = new Ninno(2+contador,columpios, tobogan, tiovivo, parque);
+                executor.execute(ninno);
+                ninno.setName("Niño-"+i);
+                System.out.println(ninno.getEdad());
+                if (contador==10) {
+                    contador = 0;
+                }
+            }
+            
+            executor.shutdown();
+            
+            try {
+                executor.awaitTermination(24, TimeUnit.HOURS);
+            } catch (InterruptedException ex) {
+            
+            }
     }
+
+    public JButton getjButtonDetener() {
+        return jButtonDetener;
+    }
+
+    public JButton getjButtonReanudar() {
+        return jButtonReanudar;
+    }
+
+    public JLabel getjLabelColaColumpio() {
+        return jLabelColaColumpio;
+    }
+
+    public JLabel getjLabelColaTiovivo() {
+        return jLabelColaTiovivo;
+    }
+
+    public JLabel getjLabelColaTobogan() {
+        return jLabelColaTobogan;
+    }
+
+    public JLabel getjLabelDe() {
+        return jLabelDe;
+    }
+
+    public JLabel getjLabelDecidiendo() {
+        return jLabelDecidiendo;
+    }
+
+    public JLabel getjLabelMontandoColumpio() {
+        return jLabelMontandoColumpio;
+    }
+
+    public JLabel getjLabelTiovivoMontando() {
+        return jLabelTiovivoMontando;
+    }
+
+    public JLabel getjLabelToboganMontado() {
+        return jLabelToboganMontado;
+    }
+
+    public JScrollPane getjScrollPane2() {
+        return jScrollPane2;
+    }
+
+    public JTextArea getjTextAreaNinnnosDecidiendo() {
+        return jTextAreaNinnnosDecidiendo;
+    }
+
+    public JTextField getjTextColaColumpio() {
+        return jTextColaColumpio;
+    }
+
+    public JTextField getjTextColaTiovivo() {
+        return jTextColaTiovivo;
+    }
+
+    public JTextField getjTextColaTobogan() {
+        return jTextColaTobogan;
+    }
+
+    public JTextField getjTextEdadNinnoMontadoTobogan() {
+        return jTextEdadNinnoMontadoTobogan;
+    }
+
+    public JTextField getjTextMontandoColumpio() {
+        return jTextMontandoColumpio;
+    }
+
+    public JTextField getjTextMontandoTiovivo() {
+        return jTextMontandoTiovivo;
+    }
+
+    public JTextField getjTextNinnoMontadoTobogan() {
+        return jTextNinnoMontadoTobogan;
+    }
+    
+    
     
     public void annadirTexto (JTextField jTextField, String texto) {
         jTextField.setText(jTextField.getText()+" "+texto);
@@ -245,26 +365,34 @@ public class ParqueInfantil extends javax.swing.JFrame {
     public void removerTexto (JTextField jTextField, String texto) {
        jTextField.setText(jTextField.getText().replace(texto, ""));
     }
+    
+    public void annadirTexto (JTextArea jTextArea, String texto) {
+        jTextArea.setText(jTextArea.getText()+"\n"+texto);
+    }
+    
+    public void removerTexto (JTextArea jTextArea, String texto) {
+        jTextArea.setText(jTextArea.getText().replace("\n"+texto,""));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDetener;
     private javax.swing.JButton jButtonReanudar;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelColaColumpio;
     private javax.swing.JLabel jLabelColaTiovivo;
     private javax.swing.JLabel jLabelColaTobogan;
     private javax.swing.JLabel jLabelDe;
     private javax.swing.JLabel jLabelDecidiendo;
+    private javax.swing.JLabel jLabelMontandoColumpio;
+    private javax.swing.JLabel jLabelTiovivoMontando;
     private javax.swing.JLabel jLabelToboganMontado;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextAreaNinnnosDecidiendo;
     private javax.swing.JTextField jTextColaColumpio;
+    private javax.swing.JTextField jTextColaTiovivo;
     private javax.swing.JTextField jTextColaTobogan;
     private javax.swing.JTextField jTextEdadNinnoMontadoTobogan;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextMontandoColumpio;
+    private javax.swing.JTextField jTextMontandoTiovivo;
     private javax.swing.JTextField jTextNinnoMontadoTobogan;
     // End of variables declaration//GEN-END:variables
 }
