@@ -20,13 +20,15 @@ public class Ninno extends Thread {
     private Tiovivo tiovivo;
     private ParqueInfantil parque;
     private int edad;
+    private ParqueMonitor parqueMonitor;
     
-    public Ninno (int edad, Columpio columpio, Tobogan tobogan, Tiovivo tiovivo, ParqueInfantil parqueInfantil) {
+    public Ninno (int edad, Columpio columpio, Tobogan tobogan, Tiovivo tiovivo, ParqueInfantil parqueInfantil, ParqueMonitor parqueMonitor) {
         this.edad = edad;
         this.columpio = columpio;
         this.tobogan = tobogan;
         this.tiovivo = tiovivo;
         parque = parqueInfantil;
+        this.parqueMonitor = parqueMonitor;
     }
     
     
@@ -34,23 +36,31 @@ public class Ninno extends Thread {
     public void run() {
         while (true) {
             try {
-                parque.annadirTexto(parque.getjTextAreaNinnnosDecidiendo(), this.getName()+"\n");
+                parque.comprobarDetener(this);
+                parqueMonitor.meterNinno(this);
                 sleep((int) (((Math.random()*1.8)+0.2)*1000));
-                parque.removerTexto(parque.getjTextAreaNinnnosDecidiendo(), this.getName()+"\n");
+                parque.comprobarDetener(this);
+                parqueMonitor.sacarNinno(this);
                 switch ((int) ((Math.random() * 2) + 1)){
                     case 1:
                         columpio.entrarColumpios(this);
+                        parque.comprobarDetener(this);
                         columpio.montarEnColumpio(this);
+                        parque.comprobarDetener(this);
                         columpio.salirColumpios(this);
                         break;
                     case 2:
                         tobogan.entrarTobogan(this);
+                        parque.comprobarDetener(this);
                         tobogan.montarEnTobogan(this);
+                        parque.comprobarDetener(this);
                         tobogan.salirTobogan(this);
                     case 3:
                         tiovivo.entrarTiovivo(this);
+                        parque.comprobarDetener(this);
                         tiovivo.getBarreraEntrada().await();
                         tiovivo.montarEnTiovivo();
+                        parque.comprobarDetener(this);
                         tiovivo.getBarreraSalida().await();
                         tiovivo.salirTiovivo(this);
                 }
@@ -65,7 +75,4 @@ public class Ninno extends Thread {
     public int getEdad() {
         return edad;
     }
-    
-    
-    
 }

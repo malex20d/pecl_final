@@ -78,4 +78,10 @@ public class Tiovivo {
         
         return s;
     }
+
+    public ArrayList<Ninno> getNinnosEsperando() {
+        return ninnosEsperando;
+    }
+    
+    
 }

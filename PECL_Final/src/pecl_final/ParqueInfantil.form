@@ -158,6 +158,9 @@
             <Property name="columns" type="int" value="1"/>
             <Property name="rows" type="int" value="50"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -268,11 +271,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Detener"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDetenerActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonReanudar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Reanudar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonReanudarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

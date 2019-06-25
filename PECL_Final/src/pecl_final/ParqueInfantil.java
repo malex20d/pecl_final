@@ -5,6 +5,9 @@
  */
 package pecl_final;
 
+import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +22,11 @@ public class ParqueInfantil extends JFrame {
     /**
      * Creates new form ParqueInfantil
      */
-    public ParqueInfantil() {
+    
+    private CountDownLatch parar = new CountDownLatch(1);
+    private boolean detenido = false;
+    
+    public ParqueInfantil() throws RemoteException {
         initComponents();
     }
 
@@ -107,8 +114,18 @@ public class ParqueInfantil extends JFrame {
         jTextMontandoTiovivo.setEditable(false);
 
         jButtonDetener.setText("Detener");
+        jButtonDetener.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDetenerActionPerformed(evt);
+            }
+        });
 
         jButtonReanudar.setText("Reanudar");
+        jButtonReanudar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReanudarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -218,13 +235,23 @@ public class ParqueInfantil extends JFrame {
     }//GEN-LAST:event_jTextColaColumpioActionPerformed
 
     private void jTextMontandoColumpioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextMontandoColumpioActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextMontandoColumpioActionPerformed
+
+    private void jButtonDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetenerActionPerformed
+        detenido = true;
+    }//GEN-LAST:event_jButtonDetenerActionPerformed
+
+    private void jButtonReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReanudarActionPerformed
+        detenido = false;
+        parar.countDown();
+        parar = new CountDownLatch(1);
+    }//GEN-LAST:event_jButtonReanudarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws RemoteException, IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -259,10 +286,13 @@ public class ParqueInfantil extends JFrame {
         Columpio columpios = new Columpio(parque);
         Tobogan tobogan = new Tobogan(parque);
         Tiovivo tiovivo = new Tiovivo(parque);
+        ParqueMonitor parqueMonitor = new ParqueMonitor(parque);
+        ServidorParque parqueServidor = new ServidorParque(tobogan, columpios, tiovivo);
+        parqueServidor.start();
         ExecutorService executor = Executors.newFixedThreadPool(20000);
             for (int i = 1; i <=50; i++) {
                 contador++;
-                Ninno ninno = new Ninno(2+contador,columpios, tobogan, tiovivo, parque);
+                Ninno ninno = new Ninno(2+contador,columpios, tobogan, tiovivo, parque, parqueMonitor);
                 executor.execute(ninno);
                 ninno.setName("Niño-"+i);
                 System.out.println(ninno.getEdad());
@@ -270,7 +300,6 @@ public class ParqueInfantil extends JFrame {
                     contador = 0;
                 }
             }
-            
             executor.shutdown();
             
             try {
@@ -279,7 +308,13 @@ public class ParqueInfantil extends JFrame {
             
             }
     }
-
+    
+    public void comprobarDetener(Thread hilo) throws InterruptedException {
+        if(detenido){
+            parar.await();   
+        }
+    }
+    
     public JButton getjButtonDetener() {
         return jButtonDetener;
     }
@@ -354,24 +389,6 @@ public class ParqueInfantil extends JFrame {
 
     public JTextField getjTextNinnoMontadoTobogan() {
         return jTextNinnoMontadoTobogan;
-    }
-    
-    
-    
-    public void annadirTexto (JTextField jTextField, String texto) {
-        jTextField.setText(jTextField.getText()+" "+texto);
-    }
-    
-    public void removerTexto (JTextField jTextField, String texto) {
-       jTextField.setText(jTextField.getText().replace(texto, ""));
-    }
-    
-    public void annadirTexto (JTextArea jTextArea, String texto) {
-        jTextArea.setText(jTextArea.getText()+"\n"+texto);
-    }
-    
-    public void removerTexto (JTextArea jTextArea, String texto) {
-        jTextArea.setText(jTextArea.getText().replace("\n"+texto,""));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

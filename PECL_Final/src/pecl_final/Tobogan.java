@@ -16,6 +16,8 @@ public class Tobogan {
     private ArrayList<Ninno> ninnosEsperando = new ArrayList<>();
     private boolean ocupado = false;
     private ParqueInfantil parque;
+    private int edadTobogan;
+    private boolean expulsar = false;
     
     public Tobogan(ParqueInfantil parqueInfantil) {
         parque = parqueInfantil;
@@ -35,15 +37,19 @@ public class Tobogan {
         }
         
         ocupado = true;
+        edadTobogan = ninno.getEdad();
+        parque.getjTextNinnoMontadoTobogan().setText(ninno.getName());
+        parque.getjTextEdadNinnoMontadoTobogan().setText(String.valueOf(ninno.getEdad()));
         System.out.println(ninno.getName()+"esta subiendo al tobogan");
         Thread.sleep(1200);
     }
     
     public void montarEnTobogan(Ninno ninno) throws InterruptedException{
         System.out.println(ninno.getName()+" montando en tobogan");
-        parque.getjTextNinnoMontadoTobogan().setText(ninno.getName());
-        parque.getjTextEdadNinnoMontadoTobogan().setText(String.valueOf(ninno.getEdad()));
-        Thread.sleep(500);
+        if (!(expulsar && ninno.getEdad()>7)) {
+            Thread.sleep(500);
+        }
+        expulsar = false;
     }
     
     public synchronized void salirTobogan(Ninno ninno) {
@@ -66,4 +72,19 @@ public class Tobogan {
         
         return s;
     }
+
+    public int getEdadTobogan() {
+        return edadTobogan;
+    }
+
+    public void setExpulsar(boolean expulsar) {
+        this.expulsar = expulsar;
+    }
+
+    public ArrayList<Ninno> getNinnosEsperando() {
+        return ninnosEsperando;
+    }
+    
+    
+    
 }

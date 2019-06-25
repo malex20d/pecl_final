@@ -29,7 +29,6 @@ public class Columpio {
             parque.getjTextColaColumpio().setText(ArrayListToString(ninnosEsperando));
             wait();
         }
-        
         if (ninnosEsperando.contains(ninno)) {
             ninnosEsperando.remove(ninno);
             parque.getjTextColaColumpio().setText(ArrayListToString(ninnosEsperando));
@@ -63,4 +62,10 @@ public class Columpio {
         
         return s;
     }
+
+    public ArrayList<Ninno> getNinnosEsperando() {
+        return ninnosEsperando;
+    }
+    
+    
 }
