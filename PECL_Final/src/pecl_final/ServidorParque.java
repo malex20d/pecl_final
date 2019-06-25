@@ -30,14 +30,16 @@ public class ServidorParque extends Thread {
     private Columpio columpio;
     private Tiovivo tiovivo;
     private ServerSocket servidor;
+    private ParqueMonitor parqueMonitor;
     
-    public ServidorParque (Tobogan tobogan, Columpio columpio, Tiovivo tiovivo) throws RemoteException, IOException {
+    public ServidorParque (Tobogan tobogan, Columpio columpio, Tiovivo tiovivo, ParqueMonitor parqueMonitor) throws RemoteException, IOException {
         
         this.tiovivo = tiovivo;
         this.columpio = columpio;
         this.tobogan= tobogan;
         registro = LocateRegistry.createRegistry(1099); //arranca RMIregistry local en el puesto 1099
         servidor = new ServerSocket(2222);
+        this.parqueMonitor = parqueMonitor;
     }
     
     @Override
@@ -50,7 +52,7 @@ public class ServidorParque extends Thread {
                 System.out.println("El Objeto ControlVigilante ha quedado registrado");
                 conexion = servidor.accept();
                 if (conexion.isConnected()) {
-                    controlSupervisor = new ControlSupervisor(conexion, tobogan, columpio, tiovivo);
+                    controlSupervisor = new ControlSupervisor(conexion, tobogan, columpio, tiovivo, parqueMonitor);
                     controlSupervisor.start();
                 }
             } catch (RemoteException | MalformedURLException ex) {

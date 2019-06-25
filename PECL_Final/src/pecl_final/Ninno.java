@@ -34,35 +34,37 @@ public class Ninno extends Thread {
     
     @Override
     public void run() {
-        while (true) {
+        while (parqueMonitor.isParqueAbierto()) {
             try {
                 parque.comprobarDetener(this);
                 parqueMonitor.meterNinno(this);
                 sleep((int) (((Math.random()*1.8)+0.2)*1000));
                 parque.comprobarDetener(this);
                 parqueMonitor.sacarNinno(this);
-                switch ((int) ((Math.random() * 2) + 1)){
-                    case 1:
-                        columpio.entrarColumpios(this);
-                        parque.comprobarDetener(this);
-                        columpio.montarEnColumpio(this);
-                        parque.comprobarDetener(this);
-                        columpio.salirColumpios(this);
-                        break;
-                    case 2:
-                        tobogan.entrarTobogan(this);
-                        parque.comprobarDetener(this);
-                        tobogan.montarEnTobogan(this);
-                        parque.comprobarDetener(this);
-                        tobogan.salirTobogan(this);
-                    case 3:
-                        tiovivo.entrarTiovivo(this);
-                        parque.comprobarDetener(this);
-                        tiovivo.getBarreraEntrada().await();
-                        tiovivo.montarEnTiovivo();
-                        parque.comprobarDetener(this);
-                        tiovivo.getBarreraSalida().await();
-                        tiovivo.salirTiovivo(this);
+                if (parqueMonitor.isParqueAbierto()) {
+                    switch ((int) ((Math.random() * 2) + 1)){
+                        case 1:
+                            columpio.entrarColumpios(this);
+                            parque.comprobarDetener(this);
+                            columpio.montarEnColumpio(this);
+                            parque.comprobarDetener(this);
+                            columpio.salirColumpios(this);
+                            break;
+                        case 2:
+                            tobogan.entrarTobogan(this);
+                            parque.comprobarDetener(this);
+                            tobogan.montarEnTobogan(this);
+                            parque.comprobarDetener(this);
+                            tobogan.salirTobogan(this);
+                        case 3:
+                            tiovivo.entrarTiovivo(this);
+                            parque.comprobarDetener(this);
+                            tiovivo.getBarreraEntrada().await();
+                            tiovivo.montarEnTiovivo();
+                            parque.comprobarDetener(this);
+                            tiovivo.getBarreraSalida().await();
+                            tiovivo.salirTiovivo(this);
+                    }
                 }
             } catch (InterruptedException ex) {
                 Logger.getLogger(Ninno.class.getName()).log(Level.SEVERE, null, ex);

@@ -24,13 +24,15 @@ public class ControlSupervisor extends Thread{
     private Tobogan tobogan;
     private Columpio columpio;
     private Tiovivo tiovivo;
+    private ParqueMonitor parqueMonitor;
     
 
-    ControlSupervisor(Socket conexion, Tobogan tobogan, Columpio columpio, Tiovivo tiovivo) {
+    ControlSupervisor(Socket conexion, Tobogan tobogan, Columpio columpio, Tiovivo tiovivo, ParqueMonitor parqueMonitor) {
         conexionServidor = conexion;
         this.tiovivo = tiovivo;
         this.tobogan = tobogan;
         this.columpio = columpio;
+        this.parqueMonitor = parqueMonitor;
     }
     
     @Override
@@ -42,7 +44,7 @@ public class ControlSupervisor extends Thread{
                 String mensaje = entrada.readUTF();
                 switch (mensaje) {
                     case "Cerrar":
-                        System.out.println("cerrar");
+                        parqueMonitor.setParqueAbierto(false);
                         break;
                     case "Refrescar":
                         salida.writeUTF(tiovivo.getNinnosEsperando().size()+"-"+columpio.getNinnosEsperando().size()+"-"+tobogan.getNinnosEsperando().size());

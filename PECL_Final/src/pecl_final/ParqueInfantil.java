@@ -287,7 +287,7 @@ public class ParqueInfantil extends JFrame {
         Tobogan tobogan = new Tobogan(parque);
         Tiovivo tiovivo = new Tiovivo(parque);
         ParqueMonitor parqueMonitor = new ParqueMonitor(parque);
-        ServidorParque parqueServidor = new ServidorParque(tobogan, columpios, tiovivo);
+        ServidorParque parqueServidor = new ServidorParque(tobogan, columpios, tiovivo, parqueMonitor);
         parqueServidor.start();
         ExecutorService executor = Executors.newFixedThreadPool(20000);
             for (int i = 1; i <=50; i++) {
